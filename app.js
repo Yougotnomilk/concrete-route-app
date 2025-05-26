@@ -11,16 +11,19 @@ const routeStages = [
 ];
 
 document.getElementById('startRouteBtn').addEventListener('click', () => {
-    // Clear any existing blips or waypoints first (if supported by your API)
+    // Hide the UI container
+    document.getElementById('appContainer').style.display = 'none';
+
+    // Clear any existing blips or waypoints
     sendMessage('clearRoute');
 
-    // Loop through each stage and send blip + waypoint info to the game
+    // Start routing stages
     routeStages.forEach((stage, index) => {
         setTimeout(() => {
             sendMessage('setBlip', { x: stage.x, y: stage.y, z: stage.z, label: stage.label });
             sendMessage('setWaypoint', { x: stage.x, y: stage.y });
             sendMessage('notify', { text: `Next stop: ${stage.label}` });
-        }, index * 3000); // 3 seconds delay between each stage
+        }, index * 3000);
     });
 });
 
